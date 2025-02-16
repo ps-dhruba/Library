@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2 class = "text-center mt-4 mb-2">{{ book.title }}</h2>
+    <div class = "d-flex gap-5 mt-5 align-items-center">
+        <div>
+            <img class = "m-auto" src="{{ book.image.url }}" alt="{{ book.title }} Image" width="200">
+        </div>
+        <div class = "fs-5">
+            {{ book.description }}
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+        {% if has_borrowed_book %}
+        <div class = "btn btn-success text-center">Borrowed</div>
+        {% else %}
+        <div class = "m-auto text-center mt-4 mb-4">
+            <form method="post" action="{% url 'borrow' book.id %}">  {% csrf_token %}
+                <button class = "btn btn-primary" type="submit">Borrow</button>
+            </form>
+        </div>
+        {%endif%}
+    {% else %}
+        <div class = "d-flex gap-5 justify-content-center mt-4 mb-4 align-items-center">
+            <a class = "btn btn-primary" href="{% url 'login' %}">Login</a> 
+            <div>or</div>
+            <a class = "btn btn-success" href="{% url 'register' %}"> Sign Up</a>
+            <div>to Borrow</div>
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated and has_borrowed_book %}
+        <div class = "w-50 m-auto text-center">
+            <h2>Leave a Review</h2>
+            <form method="post" action="{% url 'review_book' book.id %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class = "btn btn-primary" type="submit">Submit Review</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <h2 class = "text-center mt-4 mb-2">Reviews</h2>
+        {% if book.reviews.all %}
+                {% for review in book.reviews.all %}
+                        <div class = "text-center w-50 m-auto border rounded-2 mb-2 p-2">
+                            {{ review.user.username }} - {{ review.rating }}/5<br>
+                            {{ review.comment }}<br>
+                            <small>{{ review.created_at }}</small><br>
+                        </div>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class = "text-center fs-5">No reviews yet.</p>
+        {% endif %}
+{% endblock %}

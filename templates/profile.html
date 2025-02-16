@@ -1,0 +1,46 @@
+{% extends "base.html" %}  
+{% block content %}
+    <h2 class = "text-center mt-4 mb-2">Welcome to Your profile page!</h2>
+    <div class = "border text-center w-50 m-auto rounded-1 p-2">
+        Username: {{ user.username }} <br>
+        Email: {{ user.email }}
+    </div>
+
+    <h2 class = "text-center mt-4 mb-2">Borrowing History</h2>
+    <table class = "table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Borrowed Date</th>
+                <th>Price</th>
+                <th>Returned Date</th>
+                <th>Return</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail in borrowing_details %}
+                <tr>
+                    <td>{{ detail.borrowing.book.title }}</td>
+                    <td>{{ detail.borrowing.borrowed_date }}</td>
+                    <td>{{ detail.borrowing.borrowing_price }}</td>
+                    <td>
+                        {% if detail.borrowing.returned_date %}
+                            {{ detail.borrowing.returned_date }}
+                        {% else %}
+                            Not Returned
+                        {% endif %}
+                    </td>
+                    <td>{{ detail.balance }}</td>
+                    <td>
+                        {% if not detail.borrowing.returned_date %}
+                            <form method="post" action="{% url 'return' detail.borrowing.id %}">  {% csrf_token %}
+                                <button class = "btn btn-primary" type="submit">Return</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
