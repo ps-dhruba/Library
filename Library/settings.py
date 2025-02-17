@@ -17,6 +17,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000"]
 
 
 # Quick-start development settings - unsuitable for production
