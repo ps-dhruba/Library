@@ -8,8 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000"]
 
-MEDIA_URL = '/media/'  # URL prefix for media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where media files will be stored (locally)
+MEDIA_URL = '/media/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 
 # Quick-start development settings - unsuitable for production
