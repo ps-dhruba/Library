@@ -1,5 +1,6 @@
 from pathlib import Path
 import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -7,11 +8,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS=["https://*.onrender.com","http://127.0.0.1:8000"]
 
+MEDIA_URL = '/media/'  # URL prefix for media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where media files will be stored (locally)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 import environ
 env = environ.Env()
 environ.Env.read_env()
@@ -19,12 +22,9 @@ environ.Env.read_env()
 # Your secret key
 SECRET_KEY = env("SECRET_KEY")
 ...
-# SECRET_KEY = 'django-insecure-c_6=9t(g6$3q3)lqo_i#eeqaakgr^h5*#5d8s1u9obcf*33+$j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
